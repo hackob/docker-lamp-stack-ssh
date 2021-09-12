@@ -46,6 +46,7 @@ services:
       # - USER_PASSWORD_FILE=/path/to/file #optional
     volumes:
       - ./container_data/ssh/config:/config
+      - ./public_html:/config/public_html
     ports:
       - 2222:2222
     restart: unless-stopped
