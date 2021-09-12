@@ -8,8 +8,8 @@
   }
 
   $servername = "mysql";
-  $username = "signum";
-  $password = "#time2fly#";
+  $username = "user";
+  $password = "password";
 
   // Create connection
   $conn = new mysqli($servername, $username, $password);

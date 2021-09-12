@@ -9,9 +9,9 @@ services:
     command: --default-authentication-plugin=mysql_native_password  
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: signum
-      MYSQL_PASSWORD: "#time2fly#"
-      MYSQL_DATABASE: signum
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: database
     restart: always
 
   php-apache:
@@ -29,12 +29,12 @@ services:
     depends_on:
       - mysql
       - php-apache
-    hostname: signum
+    hostname: hostname
     environment:
       TZ: America/Mexico_City
       PUID: 1000
       PGID: 1000
-      USER_NAME: signum
+      USER_NAME: user
       USER_PASSWORD: password
       SUDO_ACCESS: "false"
       PASSWORD_ACCESS: "true"
