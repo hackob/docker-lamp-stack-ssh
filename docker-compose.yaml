@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - ./container_data/mysql/data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password  
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: signum
+      MYSQL_PASSWORD: "#time2fly#"
+      MYSQL_DATABASE: signum
+    restart: always
+
+  php-apache:
+    build: .
+    depends_on:
+      - mysql
+    volumes: 
+      - ./public_html:/var/www/html
+    ports: 
+      - 8080:80
+    restart: always
+
+  openssh-server:
+    image: ghcr.io/linuxserver/openssh-server
+    depends_on:
+      - mysql
+      - php-apache
+    hostname: signum
+    environment:
+      TZ: America/Mexico_City
+      PUID: 1000
+      PGID: 1000
+      USER_NAME: signum
+      USER_PASSWORD: password
+      SUDO_ACCESS: "false"
+      PASSWORD_ACCESS: "true"
+      # - PUBLIC_KEY=yourpublickey #optional
+      # - PUBLIC_KEY_FILE=/path/to/file #optional
+      # - PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys #optional
+      # - SUDO_ACCESS=false #optional
+      # - PASSWORD_ACCESS=false #optional
+      # - USER_PASSWORD_FILE=/path/to/file #optional
+    volumes:
+      - ./container_data/ssh/config:/config
+    ports:
+      - 2222:2222
+    restart: unless-stopped
